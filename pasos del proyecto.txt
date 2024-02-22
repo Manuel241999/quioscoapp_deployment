@@ -1,0 +1,97 @@
+Primero tenes crear e proyecto con Next. En mi caso use la version 12 porque es la unica que aprendi carajo.
+npx create-next-app@12  
+
+Luego instalas Tailwindcss:
+
+npm i -D tailwindcss postcss autoprefixer
+npx  tailwindcss init -p                 
+
+Luego tenes que instalar mysql o postgres, para que prisma lo use.
+Nota: Tambien create la base de datos llamada: quioscoapp.
+CREATE DATABASE quioscoapp;
+
+Intalacion de Prisma:
+Dependencias de dasarrollo:
+
+npm i -D prisma
+
+Dependencias de Producción (Para usar la base de datos):
+npm i @prisma/client
+
+Para iniciar la base de datos:
+npx prisma init
+
+
+Cambios en el archivo prisma:
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+CAMBIAR A:
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+en el archivo .env:
+
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+
+cambiar a (EN MI CASO):
+
+DATABASE_URL="mysql://root:root@localhost:3306/quioscoapp"
+
+
+MODELOS:
+Cuando ya tenes tus modelos, hay que crear una migracion:
+npx prisma migrate dev
+
+De esta manera ya se pasan las tablas y los nuevos cambios a la base de datos. ESTO SE PARECE A HIBERNATE DE JAVA.
+
+
+Otra forma de ver la migracion es por medio de:
+npx prisma studio
+
+
+//Como insertar de forma masiva datos a prisma
+
+tenes que tener un archivo TS donde esten todos los datos, como lo son en la carpeta "data"
+
+Ahora revizate a mas detalle que hice en seed.ts, donde hago uso de metodos de prisma como lo es el createmany() que en el inserto todo a las tablas en un try catch.
+
+Ahora, el siguiente paso hay que ejecutarlo, por lo que tenes que instalar la dependencia de TypeScript llamada: TS Node
+npm i ts-node 
+
+El siguiente paso es que tenes que ir a package.json y crear una nueva propiedad que ejecute el archivo seed.ts
+"prisma":{
+      "seed": "ts-node prisma/seed.ts"
+  },
+
+
+ahora ejecuta esto: npx prisma db seed
+
+DATO X: para resetear todo usa: npx prisma migrate reset --force
+
+
+
+//Front
+
+npm i react-modal
+
+
+npm install --save react-toastify
+
+
+npm i swr  
